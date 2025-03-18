@@ -1,24 +1,21 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
-    "target": "ES2022",
-    "lib": ["ES2023"],
+    "target": "ES2020",
     "module": "ESNext",
+    "lib": ["ES2020", "DOM"],
     "skipLibCheck": true,
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
+    "declaration": true,  // ✅ Generate .d.ts files
+    "declarationDir": "dist/types", // ✅ Output types to dist/types
+    "emitDeclarationOnly": true,  // ✅ Only emit type declarations
 
-    /* Linting */
+    "moduleResolution": "node",
+    "isolatedModules": true,
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "jsx": "react-jsx",  // ✅ Fix JSX error
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
