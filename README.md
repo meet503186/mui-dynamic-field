@@ -33,12 +33,13 @@ import { DynamicField } from "mui-dynamic-field";
 export default function Example() {
   return (
     <DynamicField
-      _key="password"
-      inputType="password"
-      label="Enter Password"
-      placeholder="Type here..."
-      error={false}
-      size="medium"
+      size="small"
+      color="primary"
+      item={{
+        _key="inputField"
+        placeholder="Input field"
+        fieldType="text"
+      }}
     />
   );
 }
