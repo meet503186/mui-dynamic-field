@@ -11,10 +11,10 @@ import {
 } from "@mui/material";
 
 import PasswordInput from "./PasswordInput";
-import { MuiDynamicInputTypes } from "../types";
+import { IDynamicField } from "../types";
 import AutocompleteSelect from "./AutocompleteSelect";
 
-const MuiDynamicField = ({
+const DynamicField = ({
   item,
   error,
   errorText,
@@ -24,7 +24,7 @@ const MuiDynamicField = ({
   onChange,
   size = "medium",
   sx,
-}: MuiDynamicInputTypes.IFormFieldConfig) => {
+}: IDynamicField.FieldConfig) => {
   const {
     placeholder: _placeholder,
     isOptional,
@@ -42,7 +42,7 @@ const MuiDynamicField = ({
     handleChange({ value: target.value, _key });
   };
 
-  const handleChange = (data: MuiDynamicInputTypes.IOnChangeProps) => {
+  const handleChange = (data: IDynamicField.IOnChangeProps) => {
     if (maxLength && data?.value?.length > maxLength) {
       return;
     }
@@ -292,4 +292,4 @@ const MuiDynamicField = ({
   }
 };
 
-export default MuiDynamicField;
+export default DynamicField;

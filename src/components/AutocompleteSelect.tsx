@@ -1,10 +1,8 @@
 import { Autocomplete, MenuItem, TextField } from "@mui/material";
-import { MuiDynamicInputTypes } from "../types";
+import { IDynamicField } from "../types";
 import { extractValue } from "../utils";
 
-const AutocompleteSelect = (
-  props: MuiDynamicInputTypes.IFormFieldItemConfig
-) => {
+const AutocompleteSelect = (props: IDynamicField.FieldItemConfig) => {
   const {
     _key,
     error,

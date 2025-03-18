@@ -1,6 +1,6 @@
 import { SxProps, TextFieldProps } from "@mui/material";
 
-export namespace MuiDynamicInputTypes {
+export namespace IDynamicField {
   /**
    * Represents an option in dropdowns, checkboxes, or autocomplete fields.
    */
@@ -31,22 +31,22 @@ export namespace MuiDynamicInputTypes {
     | "radio"
     | "switch";
 
-  export interface IFormFieldConfig {
-    item: MuiDynamicInputTypes.IFormFieldItemConfig;
+  export interface FieldConfig {
+    item: IDynamicField.FieldItemConfig;
     error?: boolean;
     errorText?: string;
     color?: TextFieldProps["color"];
     disabled?: boolean;
-    value: string | boolean | number | MuiDynamicInputTypes.IOption;
+    value: string | boolean | number | IDynamicField.IOption;
     sx?: SxProps;
-    onChange?: (data: MuiDynamicInputTypes.IOnChangeProps) => void;
+    onChange?: (data: IDynamicField.IOnChangeProps) => void;
     size?: TextFieldProps["size"];
   }
 
   /**
    * Represents the configuration for a form field (input, select, picker, etc.).
    */
-  export interface IFormFieldItemConfig<T extends Record<string, any> = {}> {
+  export interface FieldItemConfig<T extends Record<string, any> = {}> {
     _key: Extract<keyof T, string> | (string & { custom?: true });
 
     /**

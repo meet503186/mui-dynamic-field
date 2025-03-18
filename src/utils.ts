@@ -1,4 +1,4 @@
-import { MuiDynamicInputTypes } from "./types";
+import { IDynamicField } from "./types";
 
 export const getUpdatedKey = (_key: string): string => `updated_${_key}`;
 export const getErrorKey = (_key: string): string => `er_${_key}`;
@@ -8,7 +8,7 @@ interface IValidationProps<
   T extends Record<string, any> = Record<string, any>
 > {
   _state: Record<string, any>;
-  fields: MuiDynamicInputTypes.IFormFieldItemConfig<T>[];
+  fields: IDynamicField.FieldItemConfig<T>[];
   customFunctions?: Record<string, () => string | null>;
 }
 

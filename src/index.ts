@@ -1,3 +1,3 @@
-export { default as MuiDynamicField } from "./components/MuiDynamicField";
+export { default as DynamicField } from "./components/DynamicField";
 export * from "./types";
 export * from "./utils";
