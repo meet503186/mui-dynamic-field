@@ -42,7 +42,7 @@ const DynamicField = ({
     handleChange({ value: target.value, _key });
   };
 
-  const handleChange = (data: IDynamicField.IOnChangeProps) => {
+  const handleChange = (data: IDynamicField.FieldChangeProps) => {
     if (maxLength && data?.value?.length > maxLength) {
       return;
     }

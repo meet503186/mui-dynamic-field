@@ -4,7 +4,7 @@ export namespace IDynamicField {
   /**
    * Represents an option in dropdowns, checkboxes, or autocomplete fields.
    */
-  export interface IOption {
+  export interface Option {
     label?: string;
     value?: string | number | boolean;
     [key: string]: any;
@@ -37,9 +37,9 @@ export namespace IDynamicField {
     errorText?: string;
     color?: TextFieldProps["color"];
     disabled?: boolean;
-    value: string | boolean | number | IDynamicField.IOption;
+    value: string | boolean | number | Option;
     sx?: SxProps;
-    onChange?: (data: IDynamicField.IOnChangeProps) => void;
+    onChange?: (data: FieldChangeProps) => void;
     size?: TextFieldProps["size"];
   }
 
@@ -57,11 +57,11 @@ export namespace IDynamicField {
     placeholder?: string;
     extraProps?: Record<string, any>;
     regex?: RegExp;
-    extraData?: IOption[] | string[] | number[];
+    extraData?: Option[] | string[] | number[];
     size?: "small" | "medium";
     isOptional?: boolean;
     md?: number;
-    options?: IOption[];
+    options?: Option[];
 
     /**
      * Custom render function for advanced field rendering.
@@ -89,7 +89,7 @@ export namespace IDynamicField {
   /**
    * Represents the properties passed to the onChange event of a form field.
    */
-  export interface IOnChangeProps<T extends Record<string, any> = {}> {
+  export interface FieldChangeProps<T extends Record<string, any> = {}> {
     _key: Extract<keyof T, string> | (string & { custom?: true });
     value: any;
     [key: string]: any;
@@ -98,7 +98,7 @@ export namespace IDynamicField {
   /**
    * Represents the state for dropdown options.
    */
-  export type IDropDownState<T extends Record<string, any> = {}> = {
-    [key in keyof MapValues<T>]: IOption[];
+  export type DropDownState<T extends Record<string, any> = {}> = {
+    [key in keyof MapValues<T>]: Option[];
   };
 }
