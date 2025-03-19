@@ -131,5 +131,9 @@ export const queryString = (obj: Record<string, any>): string => {
 };
 
 export function extractValue<T extends unknown>(obj: T, key: string): unknown {
+  if (!obj) {
+    return "";
+  }
+
   return obj[key as keyof T] ?? obj ?? "";
 }

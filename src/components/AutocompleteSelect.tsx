@@ -29,12 +29,12 @@ const AutocompleteSelect = (props: IDynamicField.FieldItemConfig) => {
         if (!option?.toString()) return "";
 
         const selected = extraData?.find((item) => {
-          if (typeof item === "object") {
-            return extractValue(option, "value") === item.value;
-          }
-
-          return extractValue(option, "value") === item || false;
+          return extractValue(option, "value") === item;
         });
+
+        if (!selected) {
+          return "";
+        }
 
         return String(extractValue(selected, "label"));
       }}
