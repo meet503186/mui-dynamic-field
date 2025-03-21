@@ -252,6 +252,7 @@ const DynamicField = ({
     case "autocomplete":
       return (
         <AutocompleteSelect
+          {...item}
           fullWidth
           color={color}
           error={error}
@@ -261,7 +262,7 @@ const DynamicField = ({
           disabled={disabled}
           variant="outlined"
           value={value ?? ""}
-          onChange={onChangeValue}
+          onChange={onChange}
           size={size}
           _key={_key}
           fieldType={fieldType}
