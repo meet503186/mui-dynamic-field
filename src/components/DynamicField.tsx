@@ -137,7 +137,7 @@ const DynamicField = ({
           variant="outlined"
           type="number"
           value={value ?? ""}
-          onChange={({ target }) => handleChange({ value: target.value, _key })}
+          onChange={onChangeValue}
           size={size}
           onWheel={(event: React.WheelEvent<HTMLInputElement>) =>
             event.currentTarget.blur()
@@ -161,9 +161,7 @@ const DynamicField = ({
           variant="outlined"
           value={value ?? ""}
           disabled={disabled}
-          onChange={({ target }) =>
-            onChange && onChange({ value: target.value, _key })
-          }
+          onChange={onChangeValue}
           {...restProps}
         />
       );
@@ -181,9 +179,7 @@ const DynamicField = ({
           variant="outlined"
           type="date"
           value={value ?? ""}
-          onChange={({ target }) =>
-            onChange && onChange({ value: target.value, _key })
-          }
+          onChange={onChangeValue}
           size={size}
           slotProps={{
             inputLabel: {
@@ -208,9 +204,7 @@ const DynamicField = ({
           variant="outlined"
           type="time"
           value={value ?? ""}
-          onChange={({ target }) =>
-            onChange && onChange({ value: target.value, _key })
-          }
+          onChange={onChangeValue}
           size={size}
           slotProps={{
             inputLabel: {
@@ -235,9 +229,7 @@ const DynamicField = ({
           variant="outlined"
           type="datetime-local"
           value={value ?? ""}
-          onChange={({ target }) =>
-            onChange && onChange({ value: target.value, _key })
-          }
+          onChange={onChangeValue}
           size={size}
           slotProps={{
             inputLabel: {
@@ -262,7 +254,7 @@ const DynamicField = ({
           disabled={disabled}
           variant="outlined"
           value={value ?? ""}
-          onChange={onChange}
+          onChange={handleChange}
           size={size}
           _key={_key}
           fieldType={fieldType}
@@ -277,7 +269,7 @@ const DynamicField = ({
             control={
               <Checkbox
                 checked={!!value}
-                onChange={() => onChange && onChange({ _key, value: !value })}
+                onChange={() => handleChange({ _key, value: !value })}
               />
             }
             label={_placeholder}
