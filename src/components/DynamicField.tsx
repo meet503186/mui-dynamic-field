@@ -87,7 +87,7 @@ const DynamicField = ({
           value={value ?? ""}
           onChange={onChangeValue}
           size={size}
-          {...restProps}
+          {...extraProps}
         />
       );
 
@@ -144,7 +144,7 @@ const DynamicField = ({
           onWheel={(event: React.WheelEvent<HTMLInputElement>) =>
             event.currentTarget.blur()
           }
-          {...restProps}
+          {...extraProps}
         />
       );
 
@@ -164,7 +164,7 @@ const DynamicField = ({
           value={value ?? ""}
           disabled={disabled}
           onChange={onChangeValue}
-          {...restProps}
+          {...extraProps}
         />
       );
 
@@ -260,7 +260,7 @@ const DynamicField = ({
           size={size}
           _key={_key}
           fieldType={fieldType}
-          {...restProps}
+          {...extraProps}
         />
       );
 
@@ -278,7 +278,7 @@ const DynamicField = ({
             name={_key}
             disabled={disabled}
             sx={sx}
-            {...restProps}
+            {...extraProps}
           />
         </FormGroup>
       );
@@ -297,7 +297,7 @@ const DynamicField = ({
           onChange={(value) => handleChange({ _key, value: value[0] })}
           onError={onError}
           disabled={disabled}
-          {...restProps}
+          {...extraProps}
         />
       );
     default:
