@@ -13,6 +13,7 @@ import {
 import PasswordInput from "./PasswordInput";
 import { IDynamicField } from "../types";
 import AutocompleteSelect from "./AutocompleteSelect";
+import { MuiFileUploader } from "mui-file-uploader";
 
 const DynamicField = ({
   item,
@@ -24,6 +25,7 @@ const DynamicField = ({
   onChange,
   size = "medium",
   sx,
+  onError,
 }: IDynamicField.FieldConfig) => {
   const {
     placeholder: _placeholder,
@@ -36,7 +38,7 @@ const DynamicField = ({
     extraData = [],
   } = item;
 
-  const { slotProps = {}, ...restProps } = extraProps;
+  const { slotProps = {}, ...restProps } = { ...(extraProps ?? {}) };
 
   const onChangeValue = ({ target }: any) => {
     handleChange({ value: target.value, _key });
@@ -279,6 +281,24 @@ const DynamicField = ({
             {...restProps}
           />
         </FormGroup>
+      );
+
+    case "file":
+      return (
+        <MuiFileUploader
+          size={size}
+          name={_key}
+          label={placeholder}
+          images={
+            value && (typeof value === "string" || value instanceof File)
+              ? [value]
+              : []
+          }
+          onChange={(value) => handleChange({ _key, value: value[0] })}
+          onError={onError}
+          disabled={disabled}
+          {...restProps}
+        />
       );
     default:
       return null;

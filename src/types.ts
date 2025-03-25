@@ -1,4 +1,5 @@
 import { SxProps, TextFieldProps } from "@mui/material";
+import { IFileUploader } from "mui-file-uploader";
 
 export namespace IDynamicField {
   /**
@@ -29,7 +30,8 @@ export namespace IDynamicField {
     | "checkbox"
     | "autocomplete"
     | "radio"
-    | "switch";
+    | "switch"
+    | "file";
 
   export interface FieldConfig {
     item: IDynamicField.FieldItemConfig;
@@ -37,9 +39,10 @@ export namespace IDynamicField {
     errorText?: string;
     color?: TextFieldProps["color"];
     disabled?: boolean;
-    value: string | boolean | number | Option;
+    value: string | boolean | number | Option | File;
     sx?: SxProps;
     onChange?: (data: FieldChangeProps) => void;
+    onError?: (error: string) => void;
     size?: TextFieldProps["size"];
   }
 
@@ -55,10 +58,11 @@ export namespace IDynamicField {
     fieldType: FieldTypes;
 
     placeholder?: string;
-    extraProps?: Record<string, any>;
+    extraProps?:
+      | (Partial<IFileUploader.Props["extraProps"]> & Record<string, unknown>)
+      | {};
     regex?: RegExp;
     extraData?: Option[] | string[] | number[];
-    size?: "small" | "medium";
     isOptional?: boolean;
     md?: number;
     options?: Option[];
