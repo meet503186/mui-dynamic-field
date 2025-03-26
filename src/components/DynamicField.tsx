@@ -250,7 +250,7 @@ const DynamicField = ({
           fullWidth
           color={color}
           error={error}
-          helperText={errorText}
+          errorText={errorText}
           placeholder={placeholder}
           name={_key}
           disabled={disabled}
