@@ -13,7 +13,7 @@ import {
 import PasswordInput from "./PasswordInput";
 import { IDynamicField } from "../types";
 import AutocompleteSelect from "./AutocompleteSelect";
-import { MuiFileUploader } from "mui-file-uploader";
+import { IFileUploader, MuiFileUploader } from "mui-file-uploader";
 
 const DynamicField = ({
   item,
@@ -297,7 +297,7 @@ const DynamicField = ({
           onChange={(value) => handleChange({ _key, value: value[0] })}
           onError={onError}
           disabled={disabled}
-          {...extraProps}
+          extraProps={extraProps as IFileUploader.Props["extraProps"]}
         />
       );
     default:
