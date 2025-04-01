@@ -5,11 +5,12 @@ export namespace IDynamicField {
   /**
    * Represents an option in dropdowns, checkboxes, or autocomplete fields.
    */
-  export interface Option {
+  export type Option<T extends Record<string, any> = {}> = {
+    [key in Extract<keyof T, string> | (string & { custom?: true })]?: any;
+  } & {
     label?: string;
     value?: string | number | boolean;
-    [key: string]: any;
-  }
+  };
 
   /**
    * Maps the values of an object.
@@ -31,7 +32,8 @@ export namespace IDynamicField {
     | "autocomplete"
     | "radio"
     | "switch"
-    | "file";
+    | "file"
+    | "multiselect";
 
   export interface FieldConfig {
     item: IDynamicField.FieldItemConfig;

@@ -14,6 +14,7 @@ import PasswordInput from "./PasswordInput";
 import { IDynamicField } from "../types";
 import AutocompleteSelect from "./AutocompleteSelect";
 import { IFileUploader, MuiFileUploader } from "mui-file-uploader";
+import MultiSelect from "./MultiSelect";
 
 const DynamicField = ({
   item,
@@ -298,6 +299,25 @@ const DynamicField = ({
           onError={onError}
           disabled={disabled}
           extraProps={extraProps as IFileUploader.Props["extraProps"]}
+        />
+      );
+
+    case "multiselect":
+      return (
+        <MultiSelect
+          _key={_key}
+          fullWidth
+          multiline={!disabled}
+          error={error}
+          errorText={errorText}
+          color={color}
+          label={placeholder}
+          variant="outlined"
+          value={value ?? []}
+          disabled={disabled}
+          onChange={onChange}
+          extraData={extraData}
+          {...restProps}
         />
       );
     default:
