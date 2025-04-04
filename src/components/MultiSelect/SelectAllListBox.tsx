@@ -8,6 +8,7 @@ import {
 } from "react";
 import Divider from "@mui/material/Divider";
 import Checkbox from "@mui/material/Checkbox";
+import { useTheme } from "@mui/material";
 
 const contextDefaultValue = {
   onSelectAll: (_selectedAll: boolean) => void null,
@@ -27,6 +28,7 @@ const MuiAutocompleteSelectAllListBox = forwardRef(function ListBoxBase(
   props: ListBoxProps,
   ref: ForwardedRef<HTMLUListElement>
 ) {
+  const theme = useTheme();
   const { children, ...rest } = props;
 
   const innerRef = useRef<HTMLUListElement>(null);
@@ -41,22 +43,21 @@ const MuiAutocompleteSelectAllListBox = forwardRef(function ListBoxBase(
   );
 
   return (
-    <>
-      <ul {...rest} ref={innerRef} role="list-box">
-        <li style={{ display: "flex", alignItems: "center" }}>
-          <Checkbox
-            id="selectAll"
-            indeterminate={indeterminate}
-            checked={selectedAll}
-            onChange={(_e) => onSelectAll(selectedAll)}
-            sx={{ ml: 2 }}
-          />
-          Select All
-        </li>
-        <Divider />
-        {children}
-      </ul>
-    </>
+    <ul {...rest} ref={innerRef} role="list-box">
+      <li style={{ display: "flex", alignItems: "center" }}>
+        <Checkbox
+          id="selectAll"
+          indeterminate={indeterminate}
+          checked={selectedAll}
+          onChange={(_e) => onSelectAll(selectedAll)}
+          // TODO: use primary color without defining
+          sx={{ ml: 2, color: `${theme.palette.primary.main} !important` }}
+        />
+        Select All
+      </li>
+      <Divider />
+      {children}
+    </ul>
   );
 });
 
