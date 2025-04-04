@@ -70,6 +70,7 @@ const DynamicField = ({
           value={value ?? ""}
           onChange={onChangeValue}
           size={size}
+          sx={sx}
           {...restProps}
         />
       );
@@ -88,6 +89,7 @@ const DynamicField = ({
           value={value ?? ""}
           onChange={onChangeValue}
           size={size}
+          sx={sx}
           {...extraProps}
         />
       );
@@ -110,6 +112,7 @@ const DynamicField = ({
             label={placeholder}
             MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
             onChange={onChangeValue}
+            sx={sx}
           >
             {extraData?.map((_item: any, index: number) => (
               <MenuItem
@@ -165,6 +168,7 @@ const DynamicField = ({
           value={value ?? ""}
           disabled={disabled}
           onChange={onChangeValue}
+          sx={sx}
           {...extraProps}
         />
       );
@@ -184,6 +188,7 @@ const DynamicField = ({
           value={value ?? ""}
           onChange={onChangeValue}
           size={size}
+          sx={sx}
           slotProps={{
             inputLabel: {
               shrink: true,
@@ -209,6 +214,7 @@ const DynamicField = ({
           value={value ?? ""}
           onChange={onChangeValue}
           size={size}
+          sx={sx}
           slotProps={{
             inputLabel: {
               shrink: true,
@@ -234,6 +240,7 @@ const DynamicField = ({
           value={value ?? ""}
           onChange={onChangeValue}
           size={size}
+          sx={sx}
           slotProps={{
             inputLabel: {
               shrink: true,
@@ -259,6 +266,7 @@ const DynamicField = ({
           value={value ?? ""}
           onChange={handleChange}
           size={size}
+          sx={sx}
           _key={_key}
           fieldType={fieldType}
           {...extraProps}
@@ -306,6 +314,7 @@ const DynamicField = ({
       return (
         <MultiSelect
           _key={_key}
+          sx={sx}
           fullWidth
           multiline={!disabled}
           error={error}
