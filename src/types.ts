@@ -33,10 +33,12 @@ export namespace IDynamicField {
     | "radio"
     | "switch"
     | "file"
-    | "multiselect";
+    | "multiselect"
+    | "phone";
 
   export interface FieldConfig {
     item: IDynamicField.FieldItemConfig;
+    itemData: any;
     error?: boolean;
     errorText?: string;
     color?: TextFieldProps["color"];
@@ -46,6 +48,7 @@ export namespace IDynamicField {
     onChange?: (data: FieldChangeProps) => void;
     onError?: (error: string) => void;
     size?: TextFieldProps["size"];
+    countryCodes?: IDynamicField.Option[];
   }
 
   /**

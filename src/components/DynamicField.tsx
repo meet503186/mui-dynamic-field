@@ -15,9 +15,11 @@ import { IDynamicField } from "../types";
 import AutocompleteSelect from "./AutocompleteSelect";
 import { IFileUploader, MuiFileUploader } from "mui-file-uploader";
 import MultiSelect from "./MultiSelect";
+import PhoneNumberInput from "./PhoneNumberInput";
 
 const DynamicField = ({
   item,
+  itemData,
   error,
   errorText,
   color = "primary",
@@ -27,6 +29,7 @@ const DynamicField = ({
   size = "medium",
   sx,
   onError,
+  countryCodes,
 }: IDynamicField.FieldConfig) => {
   const {
     placeholder: _placeholder,
@@ -50,7 +53,12 @@ const DynamicField = ({
       return;
     }
     onChange &&
-      onChange({ overRideValues, maxLength, value: data.value, _key });
+      onChange({
+        overRideValues,
+        maxLength,
+        value: data.value,
+        _key: data._key,
+      });
   };
 
   const placeholder = _placeholder + (isOptional ? "" : "*");
@@ -327,6 +335,27 @@ const DynamicField = ({
           onChange={onChange}
           extraData={extraData}
           {...restProps}
+        />
+      );
+
+    case "phone":
+      return (
+        <PhoneNumberInput
+          fullWidth
+          color={color}
+          error={error}
+          helperText={errorText}
+          label={placeholder}
+          name={_key}
+          disabled={disabled}
+          variant="outlined"
+          value={value ?? ""}
+          handleChange={handleChange}
+          size={size}
+          sx={sx}
+          countryCodes={countryCodes}
+          countryCode={itemData["countryCode"]}
+          {...extraProps}
         />
       );
     default:
