@@ -38,7 +38,7 @@ export namespace IDynamicField {
 
   export interface FieldConfig {
     item: IDynamicField.FieldItemConfig;
-    itemData: any;
+    itemData?: any;
     error?: boolean;
     errorText?: string;
     color?: TextFieldProps["color"];
