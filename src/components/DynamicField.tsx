@@ -30,6 +30,7 @@ const DynamicField = ({
   sx,
   onError,
   countryCodes,
+  getLocalizedText,
 }: IDynamicField.FieldConfig) => {
   const {
     placeholder: _placeholder,
@@ -61,7 +62,9 @@ const DynamicField = ({
       });
   };
 
-  const placeholder = _placeholder + (isOptional ? "" : "*");
+  const placeholder = getLocalizedText
+    ? getLocalizedText(_placeholder || "")
+    : _placeholder + (isOptional ? "" : "*");
 
   switch (fieldType) {
     case "text":
