@@ -357,7 +357,7 @@ const DynamicField = ({
           size={size}
           sx={sx}
           countryCodes={countryCodes}
-          countryCode={itemData["countryCode"]}
+          countryCode={itemData ? itemData["countryCode"] : ""}
           {...extraProps}
         />
       );

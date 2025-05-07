@@ -58,8 +58,6 @@ const PhoneNumberInput = (
             )
           }
           isOptionEqualToValue={(option, value) => {
-            console.log({ option, value });
-
             return (
               `${option.label}${option.value}` ===
               `${value.label}${value.value}`
