@@ -62,9 +62,9 @@ const DynamicField = ({
       });
   };
 
-  const placeholder = getLocalizedText
-    ? getLocalizedText(_placeholder || "")
-    : _placeholder + (isOptional ? "" : "*");
+  const placeholder =
+    (getLocalizedText ? getLocalizedText(_placeholder || "") : _placeholder) +
+    (isOptional ? "" : "*");
 
   switch (fieldType) {
     case "text":
