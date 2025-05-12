@@ -9,22 +9,32 @@ interface IValidationProps<
 > {
   _state: Record<string, any>;
   fields: IDynamicField.FieldItemConfig<T>[];
+  getLocalizedText?: (text: string, params?: Record<string, any>) => string;
   customFunctions?: Record<string, () => string | null>;
 }
 
 export const validateFields = <T extends Record<string, any>>({
   _state,
   fields,
+  getLocalizedText,
   customFunctions,
 }: IValidationProps<T>) => {
   let isValid = true;
   const updatedState = { ..._state };
 
   // Helper to set an error message
-  const setError = (_key: string, message: string) => {
+  const setError = (
+    _key: string,
+    message: string,
+    localizedKey?: string,
+    localizedParams?: Record<string, any>
+  ) => {
     isValid = false;
     updatedState[getErrorKey(_key)] = true;
-    updatedState[getErrorText(_key)] = message;
+    updatedState[getErrorText(_key)] =
+      getLocalizedText && localizedKey
+        ? getLocalizedText(localizedKey, localizedParams)
+        : message;
   };
 
   fields.forEach(
@@ -35,7 +45,10 @@ export const validateFields = <T extends Record<string, any>>({
       dependent,
       minLength,
       maxLength,
+      min,
+      max,
       placeholder,
+      message,
     }) => {
       const fieldValue = updatedState[_key];
 
@@ -54,37 +67,62 @@ export const validateFields = <T extends Record<string, any>>({
 
       // Handle required fields
       if (fieldValue === undefined || fieldValue === null) {
-        setError(_key, `${placeholder || "Field"} is required`);
+        setError(
+          _key,
+          `${placeholder || "Field"} is required`,
+          "placeholderIsRequired",
+          { placeholder: getLocalizedText?.(placeholder || "field") }
+        );
         return;
       }
 
       // Handle min/max length validation
       if (typeof fieldValue === "string") {
-        if (minLength && fieldValue.length < minLength) {
-          setError(_key, `Minimum length should be ${minLength}`);
+        if (
+          (minLength && fieldValue.length < minLength) ||
+          (min && fieldValue.length < min)
+        ) {
+          setError(
+            _key,
+            `Minimum length should be ${minLength || min}`,
+            "minLengthError",
+            { minLength: minLength || min }
+          );
           return;
         }
-        if (maxLength && fieldValue.length > maxLength) {
-          setError(_key, `Maximum length should be ${maxLength}`);
+        if (
+          (maxLength && fieldValue.length > maxLength) ||
+          (max && fieldValue.length > max)
+        ) {
+          setError(
+            _key,
+            `Maximum length should be ${maxLength || max}`,
+            "maxLengthError",
+            { maxLength: maxLength || max }
+          );
           return;
         }
       }
 
       // Handle negative number validation
-      if (typeof fieldValue === "number" && fieldValue < 0) {
-        setError(_key, "Please enter a valid value");
+      if (typeof +fieldValue === "number" && +fieldValue < 0) {
+        setError(_key, "Please enter a valid value", "invalidValue");
         return;
       }
 
       // Handle empty or whitespace-only fields
       if (typeof fieldValue === "string" && !fieldValue.trim().length) {
-        setError(_key, "Please enter a valid value");
+        setError(_key, "Please enter a valid value", "invalidValue");
         return;
       }
 
       // Handle regex validation
-      if (regex && typeof fieldValue === "string" && !regex.test(fieldValue)) {
-        setError(_key, "Invalid format");
+      if (regex && typeof fieldValue === "string") {
+        const _regexExp = new RegExp(regex);
+
+        if (_regexExp.test(fieldValue)) return;
+
+        setError(_key, message || "Invalid format", message || "invalidFormat");
         return;
       }
 

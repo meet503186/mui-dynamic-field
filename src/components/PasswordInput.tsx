@@ -33,6 +33,7 @@ const PasswordInput = (props: TextFieldProps & { errorText?: string }) => {
     onChange,
     disabled,
     size,
+    slotProps,
     ...restProps
   } = props;
 
@@ -57,7 +58,9 @@ const PasswordInput = (props: TextFieldProps & { errorText?: string }) => {
         (e.target as HTMLInputElement).blur()
       }
       slotProps={{
+        ...slotProps,
         input: {
+          ...(slotProps?.input || {}),
           endAdornment: (
             <IconButton onClick={toggleShowPassword}>
               {showPassword ? <VisibilityOff /> : <Visibility />}

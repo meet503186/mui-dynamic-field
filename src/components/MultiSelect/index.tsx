@@ -19,6 +19,8 @@ const MultiSelect = ({
 }: Omit<IDynamicField.FieldItemConfig, "fieldType">) => {
   const selectedAll = value?.length === extraData?.length;
 
+  const { slotProps = {}, ...restProps } = extraProps || {};
+
   return (
     <MuiAutocompleteSelectAll.Provider
       value={{
@@ -40,7 +42,7 @@ const MultiSelect = ({
         onChange={(_, value) => {
           onChange && onChange({ _key, value });
         }}
-        value={Array.isArray(value) ? value : []}
+        value={Array.isArray(value) ? value : [value]}
         color={color}
         size={size}
         getOptionLabel={(option: any) =>
@@ -91,6 +93,7 @@ const MultiSelect = ({
               label={placeholder}
               placeholder={placeholder}
               slotProps={{
+                inputLabel: slotProps.inputLabel,
                 input: {
                   startAdornment: (
                     <div
@@ -104,9 +107,10 @@ const MultiSelect = ({
                     </div>
                   ),
                   ...restInputProps,
+                  ...(slotProps?.input || {}),
                 },
               }}
-              {...extraProps}
+              {...restProps}
             />
           );
         }}
@@ -121,7 +125,7 @@ const MultiSelect = ({
             </li>
           );
         }}
-        {...extraProps}
+        {...restProps}
       />
     </MuiAutocompleteSelectAll.Provider>
   );

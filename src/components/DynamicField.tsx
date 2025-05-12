@@ -39,6 +39,7 @@ const DynamicField = ({
     fieldType,
     overRideValues = {},
     maxLength,
+    multiple,
     extraProps = {},
     extraData = [],
   } = item;
@@ -82,7 +83,7 @@ const DynamicField = ({
           onChange={onChangeValue}
           size={size}
           sx={sx}
-          {...restProps}
+          {...extraProps}
         />
       );
 
@@ -115,15 +116,18 @@ const DynamicField = ({
           fullWidth
           {...restProps}
         >
-          <InputLabel id={_key}>{placeholder}</InputLabel>
+          <InputLabel id={_key} {...((slotProps as any)?.inputLabel || {})}>
+            {placeholder}
+          </InputLabel>
           <Select
             labelId={_key}
             name={_key}
-            value={value ?? ""}
             label={placeholder}
+            value={value ?? ""}
             MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
             onChange={onChangeValue}
             sx={sx}
+            slotProps={slotProps}
           >
             {extraData?.map((_item: any, index: number) => (
               <MenuItem
@@ -291,6 +295,7 @@ const DynamicField = ({
             control={
               <Checkbox
                 checked={!!value}
+                slotProps={slotProps}
                 onChange={() => handleChange({ _key, value: !value })}
               />
             }
@@ -310,13 +315,14 @@ const DynamicField = ({
           name={_key}
           label={placeholder}
           images={
-            value && (typeof value === "string" || value instanceof File)
+            (value && (typeof value === "string" || value instanceof File)
               ? [value]
-              : []
+              : value) as any
           }
-          onChange={(value) => handleChange({ _key, value: value[0] })}
+          onChange={(value) => handleChange({ _key, value })}
           onError={onError}
           disabled={disabled}
+          multiple={multiple}
           extraProps={extraProps as IFileUploader.Props["extraProps"]}
         />
       );
@@ -337,7 +343,8 @@ const DynamicField = ({
           disabled={disabled}
           onChange={onChange}
           extraData={extraData}
-          {...restProps}
+          size={size}
+          {...extraProps}
         />
       );
 

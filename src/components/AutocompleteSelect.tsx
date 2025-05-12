@@ -16,6 +16,8 @@ const AutocompleteSelect = (props: IDynamicField.FieldItemConfig) => {
     extraData = [],
   } = props;
 
+  const { slotProps = {}, ...restProps }: any = extraProps;
+
   return (
     <Autocomplete
       size={size}
@@ -61,7 +63,20 @@ const AutocompleteSelect = (props: IDynamicField.FieldItemConfig) => {
             label={placeholder}
             helperText={errorText}
             error={error}
-            {...extraProps}
+            sx={{
+              "& .MuiAutocomplete-inputRoot": {
+                ...(slotProps?.input?.style || {}),
+              },
+            }}
+            slotProps={{
+              inputLabel: slotProps?.inputLabel,
+              // input: {
+              //   sx: {
+              //     ...(slotProps?.input?.style || {}),
+              //   },
+              // },
+            }}
+            {...restProps}
           />
         );
       }}
