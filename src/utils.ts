@@ -65,6 +65,16 @@ export const validateFields = <T extends Record<string, any>>({
         return;
       }
 
+      if (Array.isArray(fieldValue) && !fieldValue.length) {
+        setError(
+          _key,
+          `${placeholder || "Field"} is required`,
+          "placeholderIsRequired",
+          { placeholder: getLocalizedText?.(placeholder || "field") }
+        );
+        return;
+      }
+
       // Handle required fields
       if (fieldValue === undefined || fieldValue === null) {
         setError(
