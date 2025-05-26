@@ -16,6 +16,7 @@ import AutocompleteSelect from "./AutocompleteSelect";
 import { IFileUploader, MuiFileUploader } from "mui-file-uploader";
 import MultiSelect from "./MultiSelect";
 import PhoneNumberInput from "./PhoneNumberInput";
+import { formatDateToISOString } from "../utils/helper";
 
 const DynamicField = ({
   item,
@@ -201,7 +202,7 @@ const DynamicField = ({
           disabled={disabled}
           variant="outlined"
           type="date"
-          value={value ?? ""}
+          value={value ? formatDateToISOString(value.toString()) : ""}
           onChange={onChangeValue}
           size={size}
           sx={sx}
@@ -253,7 +254,7 @@ const DynamicField = ({
           disabled={disabled}
           variant="outlined"
           type="datetime-local"
-          value={value ?? ""}
+          value={value ? formatDateToISOString(value.toString(), true) : ""}
           onChange={onChangeValue}
           size={size}
           sx={sx}

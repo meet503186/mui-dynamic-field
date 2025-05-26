@@ -53,7 +53,7 @@ export const validateFields = <T extends Record<string, any>>({
       const fieldValue = updatedState[_key];
 
       // Skip validation if the field is optional and empty
-      if (!fieldValue && isOptional) return;
+      if ((!fieldValue && isOptional) || !_key) return;
 
       // Skip validation if the field has a dependency that isn't met
       if (dependent && updatedState[dependent._key] !== dependent.value) return;
