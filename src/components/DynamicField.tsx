@@ -316,7 +316,7 @@ const DynamicField = ({
           size={size}
           name={_key}
           label={placeholder}
-          images={
+          files={
             (value && (typeof value === "string" || value instanceof File)
               ? [value]
               : value) as any
