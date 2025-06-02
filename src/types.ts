@@ -1,5 +1,5 @@
 import { SxProps, TextFieldProps } from "@mui/material";
-import { IFileUploader } from "mui-file-uploader";
+import { IFileUploader, IMedia } from "mui-file-uploader";
 
 export namespace IDynamicField {
   /**
@@ -43,7 +43,7 @@ export namespace IDynamicField {
     errorText?: string;
     color?: TextFieldProps["color"];
     disabled?: boolean;
-    value: string | boolean | number | Option | File;
+    value: string | boolean | number | Option | File[] | MediaFileData[];
     sx?: SxProps;
     onChange?: (data: FieldChangeProps) => void;
     onError?: (error: string) => void;
@@ -111,4 +111,6 @@ export namespace IDynamicField {
   export type DropDownState<T extends Record<string, any> = {}> = {
     [key in keyof MapValues<T>]: Option[];
   };
+
+  export type MediaFileData = IMedia.FileData;
 }

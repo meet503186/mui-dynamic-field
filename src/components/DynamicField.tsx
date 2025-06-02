@@ -65,7 +65,7 @@ const DynamicField = ({
   };
 
   const placeholder = _placeholder
-    ? (getLocalizedText ? getLocalizedText(_placeholder || "") : _placeholder) +
+    ? (getLocalizedText?.(_placeholder) || _placeholder) +
       (isOptional ? "" : "*")
     : "";
 
@@ -311,6 +311,14 @@ const DynamicField = ({
       );
 
     case "file":
+      const {
+        onUploadFile,
+        onDeleteFile,
+        count,
+        hideDoneButton,
+        ...rest
+      }: any = extraProps || {};
+
       return (
         <MuiFileUploader
           size={size}
@@ -325,7 +333,13 @@ const DynamicField = ({
           onError={onError}
           disabled={disabled}
           multiple={multiple}
-          extraProps={extraProps as IFileUploader.Props["extraProps"]}
+          onUploadFile={onUploadFile}
+          onDeleteFile={onDeleteFile}
+          getLocalizedText={getLocalizedText}
+          count={count}
+          error={errorText}
+          hideDoneButton={hideDoneButton}
+          extraProps={rest as IFileUploader.Props["extraProps"]}
         />
       );
 
