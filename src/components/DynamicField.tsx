@@ -324,11 +324,7 @@ const DynamicField = ({
           size={size}
           name={_key}
           label={placeholder}
-          files={
-            (value && (typeof value === "string" || value instanceof File)
-              ? [value]
-              : value) as any
-          }
+          files={(value ? (Array.isArray(value) ? value : [value]) : []) as any}
           onChange={(value) => handleChange({ _key, value })}
           onError={onError}
           disabled={disabled}
@@ -339,6 +335,7 @@ const DynamicField = ({
           count={count}
           error={errorText}
           hideDoneButton={hideDoneButton}
+          isOptional={isOptional}
           extraProps={rest as IFileUploader.Props["extraProps"]}
         />
       );
