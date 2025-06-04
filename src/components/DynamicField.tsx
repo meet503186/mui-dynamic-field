@@ -311,13 +311,8 @@ const DynamicField = ({
       );
 
     case "file":
-      const {
-        onUploadFile,
-        onDeleteFile,
-        count,
-        hideDoneButton,
-        ...rest
-      }: any = extraProps || {};
+      const { onUploadFile, onDeleteFile, onSubmit, count, ...rest }: any =
+        extraProps || {};
 
       return (
         <MuiFileUploader
@@ -331,10 +326,10 @@ const DynamicField = ({
           multiple={multiple}
           onUploadFile={onUploadFile}
           onDeleteFile={onDeleteFile}
+          onSubmit={onSubmit}
           getLocalizedText={getLocalizedText}
           count={count}
           error={errorText}
-          hideDoneButton={hideDoneButton}
           isOptional={isOptional}
           extraProps={rest as IFileUploader.Props["extraProps"]}
         />
