@@ -179,7 +179,7 @@ export const queryString = (obj: Record<string, any>): string => {
 };
 
 export function extractValue<T extends unknown>(obj: T, key: string): unknown {
-  if (!obj) {
+  if (!obj?.toString()) {
     return "";
   }
 
