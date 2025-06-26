@@ -61,6 +61,7 @@ const DynamicField = ({
         maxLength,
         value: data.value,
         _key: data._key,
+        textValue: data.textValue,
       });
   };
 

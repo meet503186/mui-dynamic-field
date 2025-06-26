@@ -47,6 +47,7 @@ const AutocompleteSelect = (props: IDynamicField.FieldItemConfig) => {
           onChange({
             value: extractValue(value, "value"),
             _key,
+            textValue: extractValue(value, "label"),
           });
       }}
       renderOption={({ key, ...restProps }, option) => {
