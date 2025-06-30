@@ -49,7 +49,7 @@ export namespace IDynamicField {
     onError?: (error: string) => void;
     size?: TextFieldProps["size"];
     countryCodes?: IDynamicField.Option[];
-    getLocalizedText?: (key: string) => string;
+    getLocalizedText?: (key: string, params?: Record<string, any>) => string;
   }
 
   /**
