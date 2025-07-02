@@ -45,9 +45,7 @@ const MultiSelect = ({
         value={Array.isArray(value) ? value : [value]}
         color={color}
         size={size}
-        getOptionLabel={(option: any) =>
-          option?.label ?? option?.name ?? option
-        }
+        getOptionLabel={(option: any) => option?.label ?? option}
         disableCloseOnSelect
         limitTags={3}
         slotProps={{
@@ -55,13 +53,13 @@ const MultiSelect = ({
             component: MuiAutocompleteSelectAll.ListBox,
           },
         }}
-        isOptionEqualToValue={(option, value) =>
-          option?.value
-            ? option?.value === value?.value
-            : option?.id
-            ? option?.id === value?.id
-            : option === value
-        }
+        isOptionEqualToValue={(option, value) => {
+          if (option?.value) {
+            return option?.value === value?.value || option?.value === value;
+          }
+
+          return option === value;
+        }}
         renderTags={(tags, getTagProps) => {
           return tags.map((tag, index) => {
             const { disabled, onDelete, ...tagProps } = getTagProps({ index });
@@ -73,7 +71,7 @@ const MultiSelect = ({
                   ChipProps.onClick && ChipProps.onClick(tag);
                 }}
                 onDelete={(deleteProps) => !disabled && onDelete(deleteProps)}
-                label={tag?.label ?? tag?.name ?? tag}
+                label={tag?.label ?? tag}
                 {...tagProps}
               />
             );
@@ -116,12 +114,9 @@ const MultiSelect = ({
         }}
         renderOption={({ key, ...rest }, option, { selected }) => {
           return (
-            <li
-              key={(option?.value || option?.id || option)?.toString()}
-              {...rest}
-            >
+            <li key={(option?.value || option)?.toString()} {...rest}>
               <Checkbox checked={selected} />
-              {option?.label ?? option?.name ?? option}
+              {option?.label ?? option}
             </li>
           );
         }}

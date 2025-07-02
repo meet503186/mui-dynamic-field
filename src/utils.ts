@@ -164,15 +164,15 @@ export const queryString = (obj: Record<string, any>): string => {
           const val = value.map((item) =>
             typeof item === "object" ? item.label || item : item
           );
-          if (val.length) {
-            acc.push(
-              `${encodeURIComponent(key)}=${encodeURIComponent(val.join(","))}`
-            );
-          }
+
+          val.forEach((v) => {
+            acc.push(`${encodeURIComponent(key)}=${encodeURIComponent(v)}`);
+          });
         } else {
           acc.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
         }
       }
+
       return acc;
     }, [])
     .join("&");
