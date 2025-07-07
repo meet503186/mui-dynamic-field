@@ -48,7 +48,6 @@ export const validateFields = <T extends Record<string, any>>({
       min,
       max,
       placeholder,
-      message,
     }) => {
       const fieldValue = updatedState[_key];
 
@@ -128,12 +127,12 @@ export const validateFields = <T extends Record<string, any>>({
 
       // Handle regex validation
       if (regex && typeof fieldValue === "string") {
-        const _regexExp = new RegExp(regex);
+        const _regexExp = new RegExp(regex.pattern);
 
-        if (_regexExp.test(fieldValue)) return;
-
-        setError(_key, message || "Invalid format", message || "invalidFormat");
-        return;
+        if (!_regexExp.test(fieldValue)) {
+          setError(_key, "Invalid format", regex.message);
+          return;
+        }
       }
 
       // Validate using custom functions

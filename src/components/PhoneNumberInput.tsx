@@ -1,4 +1,10 @@
-import { Autocomplete, Box, TextField, TextFieldProps } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  TextField,
+  TextFieldProps,
+  Typography,
+} from "@mui/material";
 import { IDynamicField } from "../types";
 import { useEffect, useState } from "react";
 
@@ -6,7 +12,8 @@ const PhoneNumberInput = (
   props: TextFieldProps & {
     errorText?: string;
     countryCodes?: IDynamicField.Option[];
-    countryCode?: IDynamicField.Option;
+    countryCode?: string;
+    countryCodeField?: string;
     handleChange: (data: IDynamicField.FieldChangeProps) => void;
   }
 ) => {
@@ -21,14 +28,14 @@ const PhoneNumberInput = (
     disabled,
     size,
     countryCode,
+    countryCodeField,
     countryCodes,
     sx,
+    slotProps,
     ...restProps
   } = props;
 
-  const selectedOption = countryCodes?.find(
-    (c) => c.shortCode === countryCode?.shortCode
-  );
+  const selectedOption = countryCodes?.find((c) => c.value === countryCode);
 
   const [inputValue, setInputValue] = useState("");
 
@@ -64,7 +71,8 @@ const PhoneNumberInput = (
             );
           }}
           onChange={(_, newValue) => {
-            handleChange({ _key: "countryCode", value: newValue });
+            if (!countryCodeField) return;
+            handleChange({ _key: countryCodeField, value: newValue.value });
             setInputValue("");
           }}
           disableClearable
@@ -149,6 +157,27 @@ const PhoneNumberInput = (
         onWheel={(e: React.WheelEvent<HTMLInputElement>) =>
           (e.target as HTMLInputElement).blur()
         }
+        slotProps={{
+          ...(slotProps || {}),
+          input: {
+            ...(slotProps?.input || {}),
+            startAdornment: (
+              <Typography
+                sx={{ color: "black !important", whiteSpace: "nowrap" }}
+              >
+                {selectedOption?.value}
+              </Typography>
+            ),
+          },
+        }}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            paddingLeft: "7px !important",
+          },
+          "& input": {
+            paddingLeft: "4px !important",
+          },
+        }}
         {...restProps}
       />
     </Box>

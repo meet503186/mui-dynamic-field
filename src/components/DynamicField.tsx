@@ -41,6 +41,7 @@ const DynamicField = ({
     overRideValues = {},
     maxLength,
     multiple,
+    countryCodeField,
     extraProps = {},
     extraData = [],
   } = item;
@@ -302,7 +303,7 @@ const DynamicField = ({
                 onChange={() => handleChange({ _key, value: !value })}
               />
             }
-            label={_placeholder}
+            label={getLocalizedText?.(_placeholder || "") || _placeholder}
             name={_key}
             disabled={disabled}
             sx={sx}
@@ -373,7 +374,8 @@ const DynamicField = ({
           size={size}
           sx={sx}
           countryCodes={countryCodes}
-          countryCode={itemData ? itemData["countryCode"] : ""}
+          countryCode={itemData ? itemData[item.countryCodeField] : ""}
+          countryCodeField={countryCodeField}
           {...extraProps}
         />
       );

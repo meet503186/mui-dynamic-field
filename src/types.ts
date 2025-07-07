@@ -67,7 +67,10 @@ export namespace IDynamicField {
     extraProps?:
       | (Partial<IFileUploader.Props["extraProps"]> & Record<string, unknown>)
       | {};
-    regex?: RegExp;
+    regex?: {
+      pattern: RegExp;
+      message?: string;
+    };
     extraData?: Option[] | string[] | number[];
     isOptional?: boolean;
     md?: number;
