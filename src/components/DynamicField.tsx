@@ -17,6 +17,7 @@ import { IFileUploader, MuiFileUploader } from "mui-file-uploader";
 import MultiSelect from "./MultiSelect";
 import PhoneNumberInput from "./PhoneNumberInput";
 import { formatDateToISOString } from "../utils/helper";
+import { REGEX } from "../constants";
 
 const DynamicField = ({
   item,
@@ -160,9 +161,15 @@ const DynamicField = ({
           name={_key}
           disabled={disabled}
           variant="outlined"
-          type="number"
+          type="tel"
           value={value ?? ""}
-          onChange={onChangeValue}
+          onChange={(e) => {
+            if (e.target.value.match(REGEX.NUMBERS.pattern)) {
+              return e.preventDefault();
+            }
+
+            handleChange({ _key, value: e.target.value });
+          }}
           size={size}
           onWheel={(event: React.WheelEvent<HTMLInputElement>) =>
             event.currentTarget.blur()

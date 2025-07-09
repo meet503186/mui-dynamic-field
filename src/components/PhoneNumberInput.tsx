@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import { IDynamicField } from "../types";
 import { useEffect, useState } from "react";
+import { REGEX } from "../constants";
 
 const PhoneNumberInput = (
   props: TextFieldProps & {
@@ -140,7 +141,7 @@ const PhoneNumberInput = (
         />
       )}
       <TextField
-        type={"number"}
+        type={"tel"}
         fullWidth
         color={color}
         error={error}
@@ -150,9 +151,13 @@ const PhoneNumberInput = (
         disabled={disabled}
         variant="outlined"
         value={value ?? ""}
-        onChange={(e) =>
-          name && handleChange({ _key: name, value: e.target.value })
-        }
+        onChange={(e) => {
+          if (e.target.value.match(REGEX.NUMBERS.pattern) || !name) {
+            return;
+          }
+
+          handleChange({ _key: name, value: e.target.value });
+        }}
         size={size}
         onWheel={(e: React.WheelEvent<HTMLInputElement>) =>
           (e.target as HTMLInputElement).blur()
