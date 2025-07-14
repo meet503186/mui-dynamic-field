@@ -29,7 +29,6 @@ export default defineConfig({
         "@mui/icons-material",
         "@emotion/react",
         "@emotion/styled",
-        "mui-file-uploader",
       ],
       output: {
         globals: {
