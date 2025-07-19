@@ -81,6 +81,7 @@ const AutocompleteSelect = (props: IDynamicField.FieldItemConfig) => {
           />
         );
       }}
+      slotProps={slotProps}
     />
   );
 };
