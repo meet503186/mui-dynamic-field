@@ -11,6 +11,7 @@ interface IValidationProps<
   fields: IDynamicField.FieldItemConfig<T>[];
   getLocalizedText?: (text: string, params?: Record<string, any>) => string;
   customFunctions?: Record<string, () => string | null>;
+  ignoreFields?: string[];
 }
 
 export const validateFields = <T extends Record<string, any>>({
@@ -18,6 +19,7 @@ export const validateFields = <T extends Record<string, any>>({
   fields,
   getLocalizedText,
   customFunctions,
+  ignoreFields,
 }: IValidationProps<T>) => {
   let isValid = true;
   const updatedState = { ..._state };
@@ -50,6 +52,9 @@ export const validateFields = <T extends Record<string, any>>({
       placeholder,
     }) => {
       const fieldValue = updatedState[_key];
+
+      // Skip if _key is in ignoreFields
+      if (ignoreFields?.includes(_key)) return;
 
       // Skip validation if the field is optional and empty
       if ((!fieldValue && isOptional) || !_key) return;
