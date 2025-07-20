@@ -29,6 +29,7 @@ export default defineConfig({
         "@mui/icons-material",
         "@emotion/react",
         "@emotion/styled",
+        "mui-file-uploader",
       ],
       output: {
         globals: {
@@ -38,7 +39,6 @@ export default defineConfig({
           "@mui/icons-material": "MaterialUIIcons",
           "@emotion/react": "EmotionReact",
           "@emotion/styled": "EmotionStyled",
-          "mui-file-uploader": "MuiFileUploader",
         },
       },
     },
