@@ -11,41 +11,45 @@
     "README.md"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "rm -rf dist && tsc --b --emitDeclarationOnly && vite build",
-    "lint": "eslint .",
-    "prepare": "npm run build"
+    "build": "rm -rf dist && rollup -c",
+    "prepare": "npm run build",
+    "lint": "eslint ."
   },
   "peerDependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.4.8",
     "@mui/material": "^6.4.8",
+    "mui-file-uploader": "^0.0.25",
     "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0",
-    "mui-file-uploader": "^0.0.24"
+    "react-dom": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@eslint/js": "^9.21.0",
     "@mui/icons-material": "^6.4.8",
     "@mui/material": "^6.4.8",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.4",
     "@types/node": "^22.13.10",
     "@types/react": "^19.0.11",
     "@types/react-dom": "^19.0.4",
-    "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0",
+    "mui-file-uploader": "^0.0.25",
+    "rollup": "^4.45.1",
+    "rollup-plugin-dts": "^6.2.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
     "typescript": "~5.7.2",
-    "typescript-eslint": "^8.24.1",
-    "vite": "^6.2.0",
-    "vite-plugin-dts": "^4.5.3",
-    "mui-file-uploader": "^0.0.24"
+    "typescript-eslint": "^8.24.1"
   },
   "repository": {
     "type": "git",
@@ -61,5 +65,8 @@
     "dynamic-field"
   ],
   "author": "Harmeet Singh",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "tslib": "^2.8.1"
+  }
 }
