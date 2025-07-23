@@ -5,7 +5,6 @@ import babel from "@rollup/plugin-babel";
 import commonjs from "@rollup/plugin-commonjs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import dts from "rollup-plugin-dts";
-import terser from "@rollup/plugin-terser";
 
 const extensions = [".ts", ".tsx"];
 
@@ -14,15 +13,14 @@ export default [
     input: "src/index.ts",
     output: [
       {
-        file: "dist/mui-dynamic-field.cjs",
-        format: "cjs",
+        file: "dist/mui-dynamic-field.js",
+        format: "esm",
         sourcemap: true,
       },
       {
-        file: "dist/mui-dynamic-field.min.js",
-        format: "esm",
+        file: "dist/mui-dynamic-field.cjs",
+        format: "cjs",
         sourcemap: true,
-        plugins: [terser()],
       },
     ],
     plugins: [
