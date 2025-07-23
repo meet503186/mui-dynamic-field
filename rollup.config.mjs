@@ -14,11 +14,6 @@ export default [
     input: "src/index.ts",
     output: [
       {
-        file: "dist/mui-dynamic-field.js",
-        format: "esm",
-        sourcemap: true,
-      },
-      {
         file: "dist/mui-dynamic-field.cjs",
         format: "cjs",
         sourcemap: true,
