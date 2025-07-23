@@ -4,8 +4,28 @@
   "description": "A dynamic and customizable input field component for React, built with Material UI & TypeScript.",
   "type": "module",
   "main": "dist/mui-dynamic-field.cjs",
-  "module": "dist/mui-dynamic-field.js",
+  "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/mui-dynamic-field.cjs",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./DynamicField": {
+      "import": "./dist/esm/components/DynamicField.js",
+      "types": "./dist/types/components/DynamicField.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/esm/utils.js",
+      "types": "./dist/types/utils.d.ts"
+    },
+    "./types": {
+      "import": "./dist/esm/types.js",
+      "types": "./dist/types/types.d.ts"
+    }
+  },
+  "sideEffects": false,
   "files": [
     "dist",
     "README.md"
