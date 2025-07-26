@@ -1,6 +1,13 @@
 import { IDynamicField } from "../../types";
+import { extractValue } from "../../utils";
 import { MuiAutocompleteSelectAll } from "./SelectAllListBox";
-import { Autocomplete, Checkbox, Chip, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Checkbox,
+  Chip,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 
 const MultiSelect = ({
   _key,
@@ -13,13 +20,15 @@ const MultiSelect = ({
   error,
   errorText,
   placeholder,
-  isCreatable,
   ChipProps = {},
-  ...extraProps
-}: Omit<IDynamicField.FieldItemConfig, "fieldType">) => {
+  extraProps,
+}: IDynamicField.FieldItemConfig) => {
   const selectedAll = value?.length === extraData?.length;
 
-  const { slotProps = {}, ...restProps } = extraProps || {};
+  const { textFieldProps = {}, ...restProps } = (extraProps ||
+    {}) as Partial<IDynamicField.MultiSelectFieldProps>;
+
+  const { slotProps = {}, ...restTextFieldProps } = textFieldProps;
 
   return (
     <MuiAutocompleteSelectAll.Provider
@@ -38,14 +47,14 @@ const MultiSelect = ({
         disablePortal
         multiple
         disabled={disabled}
-        options={extraData || []}
+        options={(extraData || []) as IDynamicField.Option[]}
         onChange={(_, value) => {
           onChange && onChange({ _key, value });
         }}
         value={Array.isArray(value) ? value : [value]}
         color={color}
         size={size}
-        getOptionLabel={(option: any) => option?.label ?? option}
+        getOptionLabel={(option) => extractValue(option, "label") as string}
         disableCloseOnSelect
         limitTags={3}
         slotProps={{
@@ -54,11 +63,7 @@ const MultiSelect = ({
           },
         }}
         isOptionEqualToValue={(option, value) => {
-          if (option?.value) {
-            return option?.value === value?.value || option?.value === value;
-          }
-
-          return option === value;
+          return extractValue(option, "value") === extractValue(value, "value");
         }}
         renderTags={(tags, getTagProps) => {
           return tags.map((tag, index) => {
@@ -71,7 +76,7 @@ const MultiSelect = ({
                   ChipProps.onClick && ChipProps.onClick(tag);
                 }}
                 onDelete={(deleteProps) => !disabled && onDelete(deleteProps)}
-                label={tag?.label ?? tag}
+                label={extractValue(tag, "label") as string}
                 {...tagProps}
               />
             );
@@ -89,7 +94,6 @@ const MultiSelect = ({
               error={error}
               helperText={errorText}
               label={placeholder}
-              placeholder={placeholder}
               slotProps={{
                 inputLabel: slotProps.inputLabel,
                 input: {
@@ -108,16 +112,17 @@ const MultiSelect = ({
                   ...(slotProps?.input || {}),
                 },
               }}
-              {...restProps}
+              {...restTextFieldProps}
             />
           );
         }}
         renderOption={({ key, ...rest }, option, { selected }) => {
           return (
-            <li key={(option?.value || option)?.toString()} {...rest}>
+            <MenuItem key={key} {...rest}>
               <Checkbox checked={selected} />
-              {option?.label ?? option}
-            </li>
+
+              {String(extractValue(option, "label"))}
+            </MenuItem>
           );
         }}
         {...restProps}

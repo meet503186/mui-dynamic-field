@@ -16,7 +16,10 @@ const AutocompleteSelect = (props: IDynamicField.FieldItemConfig) => {
     extraData = [],
   } = props;
 
-  const { slotProps = {}, ...restProps }: any = extraProps;
+  const { textFieldProps = {}, ...restProps } = (extraProps ||
+    {}) as Partial<IDynamicField.AutoCompleteFieldProps>;
+
+  const { slotProps = {}, ...restTextFieldProps } = textFieldProps;
 
   return (
     <Autocomplete
@@ -40,8 +43,8 @@ const AutocompleteSelect = (props: IDynamicField.FieldItemConfig) => {
 
         return String(extractValue(selected, "label"));
       }}
-      options={extraData}
-      value={extractValue(value, "value")}
+      options={extraData as IDynamicField.Option[]}
+      value={extractValue(value, "value") as IDynamicField.Option}
       onChange={(_, value) => {
         onChange &&
           onChange({
@@ -66,22 +69,14 @@ const AutocompleteSelect = (props: IDynamicField.FieldItemConfig) => {
             error={error}
             sx={{
               "& .MuiAutocomplete-inputRoot": {
-                ...(slotProps?.input?.style || {}),
+                ...((slotProps?.input as any)?.style || {}),
               },
             }}
-            slotProps={{
-              inputLabel: slotProps?.inputLabel,
-              // input: {
-              //   sx: {
-              //     ...(slotProps?.input?.style || {}),
-              //   },
-              // },
-            }}
-            {...restProps}
+            {...restTextFieldProps}
           />
         );
       }}
-      slotProps={slotProps}
+      {...restProps}
     />
   );
 };

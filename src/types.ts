@@ -1,21 +1,23 @@
-import { SxProps, TextFieldProps } from "@mui/material";
+import {
+  SxProps,
+  TextFieldProps,
+  SelectProps,
+  FormControlLabelProps,
+  CheckboxProps,
+  AutocompleteProps,
+} from "@mui/material";
 import { IFileUploader, IMedia } from "mui-file-uploader";
 
 export namespace IDynamicField {
-  /**
-   * Represents an option in dropdowns, checkboxes, or autocomplete fields.
-   */
-  export type Option<T extends Record<string, any> = {}> = {
+  type GenericRecord = Record<string, any>;
+  export type Option<T extends GenericRecord = {}> = {
     [key in Extract<keyof T, string> | (string & { custom?: true })]?: any;
   } & {
     label?: string;
     value?: string | number | boolean;
   };
 
-  /**
-   * Maps the values of an object.
-   */
-  export type MapValues<T extends Record<string, any> = {}> = {
+  export type MapValues<T extends GenericRecord = {}> = {
     [key in Extract<keyof T, string> | (string & { custom?: true })]?: any;
   };
 
@@ -30,14 +32,93 @@ export namespace IDynamicField {
     | "datetime"
     | "checkbox"
     | "autocomplete"
-    | "radio"
-    | "switch"
     | "file"
     | "multiselect"
     | "phone";
 
+  // Base interface for shared props/members across all field configs
+  interface BaseFieldItemConfig<T extends GenericRecord = {}> {
+    _key: Extract<keyof T, string> | (string & { custom?: true });
+    placeholder?: string;
+    regex?: {
+      pattern: RegExp;
+      message?: string;
+    };
+    extraData?: Option[] | string[] | number[];
+    isOptional?: boolean;
+    md?: number;
+    options?: Option[];
+    renderField?: (props: any) => React.JSX.Element | string;
+    overRideValues?: Partial<MapValues<T>>;
+    dataKey?: Extract<keyof T, string> | (string & { custom?: true });
+    dependent?: {
+      _key: Extract<keyof T, string> | (string & { custom?: true });
+      value: any[];
+    };
+    [key: string]: any;
+  }
+
+  export interface CheckboxFieldProps {
+    labelProps: Partial<FormControlLabelProps>;
+    checkboxProps: Partial<CheckboxProps>;
+  }
+
+  export interface AutoCompleteFieldProps
+    extends AutocompleteProps<Option | string, false, false, false> {
+    textFieldProps?: Partial<TextFieldProps>;
+  }
+
+  export interface MultiSelectFieldProps
+    extends AutocompleteProps<Option | string, true, false, false> {
+    textFieldProps?: Partial<TextFieldProps>;
+  }
+
+  export type FileUploaderProps = IFileUploader.Props["extraProps"];
+
+  // Specific field configs by fieldType, with correctly typed extraProps
+
+  export type FieldItemConfig<T extends GenericRecord = {}> =
+    | (BaseFieldItemConfig<T> & {
+        fieldType: "file";
+        extraProps?: Partial<FileUploaderProps>;
+      })
+    | (BaseFieldItemConfig<T> & {
+        fieldType:
+          | "text"
+          | "password"
+          | "number"
+          | "textarea"
+          | "date"
+          | "time"
+          | "datetime";
+        extraProps?: Partial<TextFieldProps>;
+      })
+    | (BaseFieldItemConfig<T> & {
+        fieldType: "phone";
+        countryCodeField?: string;
+        extraProps?: Partial<TextFieldProps> & {
+          countryCodes?: IDynamicField.Option[];
+        };
+      })
+    | (BaseFieldItemConfig<T> & {
+        fieldType: "autocomplete";
+        extraProps?: Partial<AutoCompleteFieldProps>;
+      })
+    | (BaseFieldItemConfig<T> & {
+        fieldType: "multiselect";
+        extraProps?: Partial<MultiSelectFieldProps>;
+      })
+    | (BaseFieldItemConfig<T> & {
+        fieldType: "dropdown";
+        extraProps?: Partial<SelectProps>;
+      })
+    | (BaseFieldItemConfig<T> & {
+        fieldType: "checkbox";
+        extraProps?: Partial<CheckboxFieldProps>;
+      });
+
   export interface FieldConfig {
-    item: IDynamicField.FieldItemConfig;
+    item: FieldItemConfig;
     itemData?: any;
     error?: boolean;
     errorText?: string;
@@ -48,70 +129,17 @@ export namespace IDynamicField {
     onChange?: (data: FieldChangeProps) => void;
     onError?: (error: string) => void;
     size?: TextFieldProps["size"];
-    countryCodes?: IDynamicField.Option[];
-    getLocalizedText?: (key: string, params?: Record<string, any>) => string;
+    countryCodes?: Option[];
+    getLocalizedText?: (key: string, params?: GenericRecord) => string;
   }
 
-  /**
-   * Represents the configuration for a form field (input, select, picker, etc.).
-   */
-  export interface FieldItemConfig<T extends Record<string, any> = {}> {
-    _key: Extract<keyof T, string> | (string & { custom?: true });
-
-    /**
-     * Defines the type of the field (input, dropdown, picker, etc.).
-     */
-    fieldType: FieldTypes;
-
-    placeholder?: string;
-    extraProps?:
-      | (Partial<IFileUploader.Props["extraProps"]> & Record<string, unknown>)
-      | {};
-    regex?: {
-      pattern: RegExp;
-      message?: string;
-    };
-    extraData?: Option[] | string[] | number[];
-    isOptional?: boolean;
-    md?: number;
-    options?: Option[];
-
-    /**
-     * Custom render function for advanced field rendering.
-     */
-    renderField?: (props: any) => React.JSX.Element | string;
-
-    /**
-     * Overrides specific values dynamically.
-     */
-    overRideValues?: Partial<MapValues<T>>;
-
-    dataKey?: Extract<keyof T, string> | (string & { custom?: true });
-
-    /**
-     * Defines if the field is dependent on another field.
-     */
-    dependent?: {
-      _key: Extract<keyof T, string> | (string & { custom?: true });
-      value: any[];
-    };
-
-    [key: string]: any;
-  }
-
-  /**
-   * Represents the properties passed to the onChange event of a form field.
-   */
-  export interface FieldChangeProps<T extends Record<string, any> = {}> {
+  export interface FieldChangeProps<T extends GenericRecord = {}> {
     _key: Extract<keyof T, string> | (string & { custom?: true });
     value: any;
     [key: string]: any;
   }
 
-  /**
-   * Represents the state for dropdown options.
-   */
-  export type DropDownState<T extends Record<string, any> = {}> = {
+  export type DropDownState<T extends GenericRecord = {}> = {
     [key in keyof MapValues<T>]: Option[];
   };
 

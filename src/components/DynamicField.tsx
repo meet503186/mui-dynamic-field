@@ -8,12 +8,13 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
+  TextFieldProps,
 } from "@mui/material";
 
 import PasswordInput from "./PasswordInput";
 import { IDynamicField } from "../types";
 import AutocompleteSelect from "./AutocompleteSelect";
-import { IFileUploader, MuiFileUploader } from "mui-file-uploader";
+import { MuiFileUploader } from "mui-file-uploader";
 import MultiSelect from "./MultiSelect";
 import PhoneNumberInput from "./PhoneNumberInput";
 import { formatDateToISOString } from "../utils/helper";
@@ -47,7 +48,7 @@ const DynamicField = ({
     extraData = [],
   } = item;
 
-  const { slotProps = {}, ...restProps } = { ...(extraProps ?? {}) };
+  const { slotProps = {}, ...restProps } = { ...(extraProps ?? {}) } as any;
 
   const onChangeValue = ({ target }: any) => {
     handleChange({ value: target.value, _key });
@@ -88,7 +89,7 @@ const DynamicField = ({
           onChange={onChangeValue}
           size={size}
           sx={sx}
-          {...extraProps}
+          {...(extraProps as Partial<TextFieldProps>)}
         />
       );
 
@@ -107,7 +108,7 @@ const DynamicField = ({
           onChange={onChangeValue}
           size={size}
           sx={sx}
-          {...extraProps}
+          {...(extraProps as Partial<TextFieldProps>)}
         />
       );
 
@@ -119,7 +120,7 @@ const DynamicField = ({
           error={error}
           color={color}
           fullWidth
-          {...restProps}
+          // {...restProps}
         >
           <InputLabel id={_key} {...((slotProps as any)?.inputLabel || {})}>
             {placeholder}
@@ -174,7 +175,7 @@ const DynamicField = ({
           onWheel={(event: React.WheelEvent<HTMLInputElement>) =>
             event.currentTarget.blur()
           }
-          {...extraProps}
+          {...(extraProps as Partial<TextFieldProps>)}
         />
       );
 
@@ -195,7 +196,7 @@ const DynamicField = ({
           disabled={disabled}
           onChange={onChangeValue}
           sx={sx}
-          {...extraProps}
+          {...(extraProps as Partial<TextFieldProps>)}
         />
       );
 
@@ -221,7 +222,7 @@ const DynamicField = ({
             },
             ...slotProps,
           }}
-          {...restProps}
+          {...(restProps as Partial<TextFieldProps>)}
         />
       );
 
@@ -247,7 +248,7 @@ const DynamicField = ({
             },
             ...slotProps,
           }}
-          {...restProps}
+          {...(restProps as Partial<TextFieldProps>)}
         />
       );
 
@@ -273,7 +274,7 @@ const DynamicField = ({
             },
             ...slotProps,
           }}
-          {...restProps}
+          {...(restProps as Partial<TextFieldProps>)}
         />
       );
 
@@ -295,36 +296,36 @@ const DynamicField = ({
           sx={sx}
           _key={_key}
           fieldType={fieldType}
-          {...extraProps}
         />
       );
 
     case "checkbox":
+      const { labelProps, checkboxProps } =
+        extraProps as Partial<IDynamicField.CheckboxFieldProps>;
+
       return (
         <FormGroup>
           <FormControlLabel
             control={
               <Checkbox
                 checked={!!value}
-                slotProps={slotProps}
                 onChange={() => handleChange({ _key, value: !value })}
+                {...checkboxProps}
               />
             }
             label={getLocalizedText?.(_placeholder || "") || _placeholder}
             name={_key}
             disabled={disabled}
             sx={sx}
-            {...extraProps}
+            {...labelProps}
           />
         </FormGroup>
       );
 
     case "file":
-      const { onUploadFile, onDeleteFile, onSubmit, count, ...rest }: any =
-        extraProps || {};
-
       return (
         <MuiFileUploader
+          {...item}
           size={size}
           name={_key}
           label={placeholder}
@@ -333,35 +334,30 @@ const DynamicField = ({
           onError={onError}
           disabled={disabled}
           multiple={multiple}
-          onUploadFile={onUploadFile}
-          onDeleteFile={onDeleteFile}
-          onSubmit={onSubmit}
           getLocalizedText={getLocalizedText}
-          count={count}
           error={errorText}
           isOptional={isOptional}
-          extraProps={rest as IFileUploader.Props["extraProps"]}
+          extraProps={extraProps as IDynamicField.FileUploaderProps}
         />
       );
 
     case "multiselect":
       return (
         <MultiSelect
-          _key={_key}
+          {...item}
           sx={sx}
           fullWidth
           multiline={!disabled}
           error={error}
           errorText={errorText}
           color={color}
-          label={placeholder}
+          placeholder={placeholder}
           variant="outlined"
           value={value ?? []}
           disabled={disabled}
           onChange={onChange}
           extraData={extraData}
           size={size}
-          {...extraProps}
         />
       );
 
@@ -381,9 +377,13 @@ const DynamicField = ({
           size={size}
           sx={sx}
           countryCodes={countryCodes}
-          countryCode={itemData ? itemData[item.countryCodeField] : ""}
+          countryCode={
+            itemData && item.countryCodeField
+              ? itemData[item.countryCodeField]
+              : ""
+          }
           countryCodeField={countryCodeField}
-          {...extraProps}
+          {...(extraProps as Partial<TextFieldProps>)}
         />
       );
     default:
