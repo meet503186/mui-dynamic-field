@@ -32,7 +32,6 @@ const DynamicField = ({
   size = "medium",
   sx,
   onError,
-  countryCodes,
   getLocalizedText,
 }: IDynamicField.FieldConfig) => {
   const {
@@ -376,7 +375,6 @@ const DynamicField = ({
           handleChange={handleChange}
           size={size}
           sx={sx}
-          countryCodes={countryCodes}
           countryCode={
             itemData && item.countryCodeField
               ? itemData[item.countryCodeField]
