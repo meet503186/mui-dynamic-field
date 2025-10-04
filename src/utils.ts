@@ -50,11 +50,12 @@ export const validateFields = <T extends Record<string, any>>({
       min,
       max,
       placeholder,
+      hidden,
     }) => {
       const fieldValue = updatedState[_key];
 
       // Skip if _key is in ignoreFields
-      if (ignoreFields?.includes(_key)) return;
+      if (ignoreFields?.includes(_key) || hidden) return;
 
       // Skip validation if the field is optional and empty
       if ((!fieldValue && isOptional) || !_key) return;
