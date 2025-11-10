@@ -1,7 +1,7 @@
 export function formatDateToISOString(dateInput: string, withTime?: boolean) {
   const date = new Date(dateInput);
 
-  const year = date.getFullYear();
+  const year = String(date.getFullYear()).padStart(4, "0").slice(-4);
 
   // Pad month, date, hours, minutes with leading zeros if needed
   const month = String(date.getMonth() + 1).padStart(2, "0"); // getMonth() is zero-based
