@@ -57,7 +57,7 @@ const DynamicField = ({
     if (maxLength && data?.value?.length > maxLength) {
       return;
     }
-    onChange &&
+    if (onChange)
       onChange({
         overRideValues,
         maxLength,
@@ -298,7 +298,7 @@ const DynamicField = ({
         />
       );
 
-    case "checkbox":
+    case "checkbox": {
       const { labelProps, checkboxProps } =
         extraProps as Partial<IDynamicField.CheckboxFieldProps>;
 
@@ -320,6 +320,7 @@ const DynamicField = ({
           />
         </FormGroup>
       );
+    }
 
     case "file":
       return (

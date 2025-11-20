@@ -84,7 +84,7 @@
   "author": "Harmeet Singh",
   "license": "MIT",
   "dependencies": {
-    "mui-file-uploader": "^0.0.33",
+    "mui-file-uploader": "^0.0.34",
     "tslib": "^2.8.1"
   }
 }

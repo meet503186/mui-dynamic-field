@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import { IDynamicField } from "../types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { REGEX } from "../constants";
 
 const PhoneNumberInput = (
@@ -15,6 +15,9 @@ const PhoneNumberInput = (
     countryCodes?: IDynamicField.Option[];
     countryCode?: string;
     countryCodeField?: string;
+    countryCodeFieldProps?: Partial<
+      IDynamicField.AutoCompleteFieldProps<IDynamicField.Option, false, true>
+    >;
     handleChange: (data: IDynamicField.FieldChangeProps) => void;
   }
 ) => {
@@ -33,18 +36,25 @@ const PhoneNumberInput = (
     countryCodes,
     sx,
     slotProps,
+    countryCodeFieldProps = {},
     ...restProps
   } = props;
+
+  const {
+    sx: countryCodeFieldSx,
+    autoFocus,
+    ...countryCodeFieldRestProps
+  } = countryCodeFieldProps;
 
   const selectedOption = countryCodes?.find((c) => c.value === countryCode);
 
   const [inputValue, setInputValue] = useState("");
 
-  useEffect(() => {
-    if (!inputValue && selectedOption) {
-      setInputValue(""); // keep input blank when not typing
-    }
-  }, [selectedOption]);
+  // useEffect(() => {
+  //   if (!inputValue && selectedOption) {
+  //     setInputValue(""); // keep input blank when not typing
+  //   }
+  // }, [selectedOption]);
 
   const showFlag = !inputValue && selectedOption?.shortCode;
 
@@ -52,6 +62,8 @@ const PhoneNumberInput = (
     <Box sx={{ display: "flex", alignItems: "flex-start" }}>
       {!!countryCodes?.length && (
         <Autocomplete
+          // TODO: fix the rest props spread issue
+          {...countryCodeFieldRestProps}
           id="country-code-autocomplete"
           options={countryCodes}
           value={selectedOption}
@@ -62,18 +74,26 @@ const PhoneNumberInput = (
           getOptionLabel={() => ""} // Always return empty label
           filterOptions={(options, { inputValue }) =>
             options.filter((opt) =>
-              opt.label?.toLowerCase().includes(inputValue.toLowerCase())
+              (opt as IDynamicField.Option).label
+                ?.toLowerCase()
+                .includes(inputValue.toLowerCase())
             )
           }
           isOptionEqualToValue={(option, value) => {
+            const _option = option as IDynamicField.Option;
+            const _value = value as IDynamicField.Option;
+
             return (
-              `${option.label}${option.value}` ===
-              `${value.label}${value.value}`
+              `${_option.label}${_option.value}` ===
+              `${_value.label}${_value.value}`
             );
           }}
           onChange={(_, newValue) => {
             if (!countryCodeField) return;
-            handleChange({ _key: countryCodeField, value: newValue.value });
+            handleChange({
+              _key: countryCodeField,
+              value: (newValue as IDynamicField.Option)?.value,
+            });
             setInputValue("");
           }}
           disableClearable
@@ -114,13 +134,16 @@ const PhoneNumberInput = (
                     paddingLeft: showFlag ? "40px" : "12px",
                   },
                 }}
+                autoFocus={autoFocus}
               />
             </Box>
           )}
           renderOption={(props, option) => (
             <li {...props}>
               <img
-                src={`https://flagsapi.com/${option.shortCode}/flat/32.png`}
+                src={`https://flagsapi.com/${
+                  (option as { shortCode: string }).shortCode
+                }/flat/32.png`}
                 style={{
                   width: 24,
                   height: 24,
@@ -129,14 +152,14 @@ const PhoneNumberInput = (
                 }}
                 alt="flag"
               />
-              {option.label}
+              {(option as IDynamicField.Option).label}
             </li>
           )}
           sx={{
-            [`& .MuiAutocomplete-inputRoot`]: {
-              paddingRight: "8px !important",
+            ...countryCodeFieldSx,
+            "& .MuiAutocomplete-input": {
+              paddingLeft: "8px !important",
             },
-            ...sx,
           }}
         />
       )}
@@ -182,6 +205,7 @@ const PhoneNumberInput = (
           "& input": {
             paddingLeft: "4px !important",
           },
+          ...sx,
         }}
         {...restProps}
       />

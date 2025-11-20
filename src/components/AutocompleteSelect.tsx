@@ -46,7 +46,7 @@ const AutocompleteSelect = (props: IDynamicField.FieldItemConfig) => {
       options={extraData as IDynamicField.Option[]}
       value={extractValue(value, "value") as IDynamicField.Option}
       onChange={(_, value) => {
-        onChange &&
+        if (onChange)
           onChange({
             value: extractValue(value, "value"),
             _key,
