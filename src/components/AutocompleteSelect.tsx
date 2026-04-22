@@ -25,7 +25,7 @@ const AutocompleteSelect = (props: IDynamicField.FieldItemConfig) => {
     <Autocomplete
       size={size}
       openOnFocus
-      disablePortal
+      disablePortal={false}
       disabled={disabled}
       isOptionEqualToValue={(option, value) =>
         extractValue(option, "value") === value
